@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using MudBlazor.Services;
 using M223PunchclockBlazor.Services.AuthService;
 using Blazored.LocalStorage;
+using M223PunchclockBlazor.Services.UserService;
 
 namespace M223PunchclockBlazor
 {
@@ -27,6 +28,7 @@ namespace M223PunchclockBlazor
 
             builder.Services.AddScoped<IEntryService, EntryService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             await builder.Build().RunAsync();
         }

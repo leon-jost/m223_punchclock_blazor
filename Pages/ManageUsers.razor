@@ -1,0 +1,31 @@
+﻿@page "/manageUsers"
+
+@if (_newUser is null)
+{
+    <MudText Typo="Typo.body1">Loading...</MudText>
+}
+else
+{
+    <MudTextField @bind-Value="_newUser.username" Label="Username" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="_newUser.password" InputType="InputType.Password" Label="Password" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="_newUser.role.id" Label="Role Id" Variant="Variant.Text"></MudTextField>
+    <MudButton Variant="Variant.Filled" OnClick="() => AddUserAsync(_newUser)">Create</MudButton>
+}
+
+@if (_users is null)
+{
+    <MudText Typo="Typo.body1">Loading...</MudText>
+}
+else
+{
+    foreach (var user in _users)
+    {
+        <MudPaper Class="pa-16 ma-2 mt-16" Elevation="3">
+            <MudTextField @bind-Value="user.username" Label="Username" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="user.password" InputType="InputType.Password" Label="Password" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="user.role.id" Label="Role Id" Variant="Variant.Text"></MudTextField>
+            <MudButton Variant="Variant.Filled" OnClick="() => DeleteUserAsync(user)">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="() => UserService.UpdateUserAsync(user)">Save</MudButton>
+        </MudPaper>
+    }
+}
