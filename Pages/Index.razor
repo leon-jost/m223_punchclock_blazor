@@ -1,13 +1,1 @@
 ﻿@page "/"
-
-@if (_entries == null)
-{
-    <p>Loading...</p>
-}
-else
-{
-    @foreach (var entry in _entries)
-    {
-        <p>@entry.checkIn</p>
-    }
-}

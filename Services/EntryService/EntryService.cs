@@ -1,9 +1,13 @@
-﻿using M223PunchclockBlazor.Poco.Entry;
+﻿using Blazored.LocalStorage;
+using M223PunchclockBlazor.Poco.Entry;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -13,11 +17,15 @@ namespace M223PunchclockBlazor.Services.EntryService
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+        private readonly NavigationManager _navigationManager;
+        private readonly ILocalStorageService _localStorage;
 
-        public EntryService(HttpClient httpClient, IConfiguration configuration)
+        public EntryService(HttpClient httpClient, IConfiguration configuration, NavigationManager navigationManager, ILocalStorageService localStorage)
         {
+            _localStorage = localStorage;
             _httpClient = httpClient;
             _configuration = configuration;
+            _navigationManager = navigationManager;
         }
 
         public async Task<List<Entry>> GetAllEntriesAsync()
@@ -27,10 +35,21 @@ namespace M223PunchclockBlazor.Services.EntryService
                 Method = new HttpMethod("GET"),
                 RequestUri = new Uri($"{_configuration["punchclockApi:baseUrl"]}/entries"),
             };
-            requestMessage.Headers.Add("Authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL3psaS5jaC9pc3N1ZXIiLCJ1cG4iOiJ6bGkiLCJncm91cHMiOlsiVXNlciIsIkFkbWluIl0sImJpcnRoZGF0ZSI6IjIwMDEtMDctMTMiLCJpYXQiOjE2MzcxMzc1OTYsImV4cCI6MTYzNzE0MTE5NiwianRpIjoiOTUyZDhhZGItNTRmZi00YTM3LTg0ZGItYWMyMjI2YTg0OTI0In0.GE9uQPUzZkqGJlunTcAC5pyjvfpLKiHXaiW2h_dsbefcJcPX38mBNn8cI2ipo4XQtBuivD7XqRBP-A-5qDXivL7V_eLxA_rp3HCvogOQp7fXiw6WTZubETMiynTNXgGU4Y9C3fxGcK_rOO63aP8dwa43YLaaQX2jrvrjTL_6agSM0egxDiCaOOr-CxNGJvRyLmjaFIg5QzfXHBfGZXIIChKSKepHT6MHmzu7cxfz8qgrmnknDpO04hscVxSooRXhQzCLZ756WeJ5_E0JsGdH_dMxGLlSDzxLt7vQeY0xrrzP6p_o6nRTAJqm8WTlZZGIB_o7VQXqBadH7pKUxdmeZw");
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("bearer", await _localStorage.GetItemAsync<string>("authToken"));
 
             var responseMessage = await _httpClient.SendAsync(requestMessage);
-            return await responseMessage.Content.ReadFromJsonAsync<List<Entry>>();
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return await responseMessage.Content.ReadFromJsonAsync<List<Entry>>();
+            }
+            
+            if (responseMessage.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _navigationManager.NavigateTo("/auth");
+            }
+
+            return null;
         }
     }
 }

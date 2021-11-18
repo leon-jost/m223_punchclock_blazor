@@ -1,0 +1,16 @@
+﻿@page "/dashboard"
+
+<MudTextField @bind-Value="CheckIn" Label="Check in" Variant="Variant.Text"></MudTextField>
+<MudTextField @bind-Value="CheckOut" Label="Check out" Variant="Variant.Text"></MudTextField>
+
+@if (_entries == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var entry in _entries)
+    {
+        <p>@entry.checkIn</p>
+    }
+}

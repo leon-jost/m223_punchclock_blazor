@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MudBlazor.Services;
+using M223PunchclockBlazor.Services.AuthService;
+using Blazored.LocalStorage;
 
 namespace M223PunchclockBlazor
 {
@@ -19,7 +22,11 @@ namespace M223PunchclockBlazor
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddMudServices();
+            builder.Services.AddBlazoredLocalStorage();
+
             builder.Services.AddScoped<IEntryService, EntryService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             await builder.Build().RunAsync();
         }

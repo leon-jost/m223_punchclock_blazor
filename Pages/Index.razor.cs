@@ -1,4 +1,5 @@
-﻿using M223PunchclockBlazor.Poco.Entry;
+﻿using Blazored.LocalStorage;
+using M223PunchclockBlazor.Poco.Entry;
 using M223PunchclockBlazor.Services.EntryService;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -12,16 +13,21 @@ namespace M223PunchclockBlazor.Pages
     public partial class Index
     {
         [Inject]
-        private HttpClient HttpClient { get; set; }
+        private NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        private IEntryService EntryService { get; set; }
+        private ILocalStorageService LocalStorage { get; set; }
 
-        private List<Entry> _entries { get; set; }
-
-        protected override async Task OnInitializedAsync()
+        protected async override Task OnInitializedAsync()
         {
-            _entries = await EntryService.GetAllEntriesAsync();
+            if (await LocalStorage.ContainKeyAsync("authToken"))
+            {
+                NavigationManager.NavigateTo("/dashboard");
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/auth");
+            }
         }
     }
 }
