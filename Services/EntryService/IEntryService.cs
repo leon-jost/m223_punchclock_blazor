@@ -8,6 +8,10 @@ namespace M223PunchclockBlazor.Services.EntryService
 {
     interface IEntryService
     {
-        public Task<List<Entry>> GetAllEntriesAsync();
+        public Task<bool> AddEntryAsync(PostEntry entry);
+        public Task<List<Entry>> GetEntriesAsync();
+        public Task<Entry> GetEntryAsync(int id);
+        public Task<bool> UpdateEntryAsync(Entry entry);
+        public Task<bool> DeleteEntryAsync(int id);
     }
 }

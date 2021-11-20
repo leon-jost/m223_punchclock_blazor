@@ -14,12 +14,30 @@ namespace M223PunchclockBlazor.Pages
         private IEntryService EntryService { get; set; }
 
         private List<Entry> _entries { get; set; }
-        private DateTime CheckIn { get; set; }
-        private DateTime CheckOut { get; set; }
+
+        private PostEntry _newEntry = new() { category = new Category(), project = new Project() };
 
         protected override async Task OnInitializedAsync()
         {
-            _entries = await EntryService.GetAllEntriesAsync();
+            _entries = await EntryService.GetEntriesAsync();
+        }
+
+        public async Task DeleteEntryAsync(Entry entry)
+        {
+            await EntryService.DeleteEntryAsync(entry.id);
+            _entries = await EntryService.GetEntriesAsync();
+        }
+
+        public async Task AddEntryAsync(PostEntry entry)
+        {
+            await EntryService.AddEntryAsync(entry);
+            _entries = await EntryService.GetEntriesAsync();
+        }
+
+        public async Task UpdateEntryAsync(Entry entry)
+        {
+            await EntryService.UpdateEntryAsync(entry);
+            _entries = await EntryService.GetEntriesAsync();
         }
     }
 }

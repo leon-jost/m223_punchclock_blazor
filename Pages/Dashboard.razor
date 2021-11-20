@@ -1,16 +1,44 @@
 ﻿@page "/dashboard"
 
-<MudTextField @bind-Value="CheckIn" Label="Check in" Variant="Variant.Text"></MudTextField>
-<MudTextField @bind-Value="CheckOut" Label="Check out" Variant="Variant.Text"></MudTextField>
-
-@if (_entries == null)
+@if (_newEntry is null)
 {
-    <p>Loading...</p>
+    <MudText Typo="Typo.body1">Loading...</MudText>
 }
 else
 {
-    @foreach (var entry in _entries)
+    <MudTextField @bind-Value="_newEntry.checkIn" Label="Check in" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="_newEntry.checkOut" Label="Check out" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="_newEntry.category.id" Label="Category" Variant="Variant.Text"></MudTextField>
+    <MudTextField @bind-Value="_newEntry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
+    <MudButton Variant="Variant.Filled" OnClick="() => AddEntryAsync(_newEntry)">Create</MudButton>
+}
+
+@if (_entries is null)
+{
+    <MudText Typo="Typo.body1">Loading...</MudText>
+}
+else
+{
+    foreach (var entry in _entries)
     {
-        <p>@entry.checkIn</p>
+        <MudPaper Class="pa-16 ma-2 mt-16" Elevation="3">
+            <MudTextField @bind-Value="entry.checkIn" Label="Check in" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="entry.checkOut" Label="Check out" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="entry.category.id" Label="Category" Variant="Variant.Text"></MudTextField>
+            <MudText Typo="Typo.body1">@entry.category.title</MudText>
+            @if (entry.project is not null)
+            {
+                <MudTextField @bind-Value="entry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
+                <MudText Typo="Typo.body1">@entry.project.title</MudText>
+            }
+            else
+            {
+                entry.project = new Project();
+                <MudTextField @bind-Value="entry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
+                <MudText Typo="Typo.body1">@entry.project.title</MudText>
+            }
+            <MudButton Variant="Variant.Filled" OnClick="() => DeleteEntryAsync(entry)">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="() => UpdateEntryAsync(entry)">Save</MudButton>
+        </MudPaper>
     }
 }

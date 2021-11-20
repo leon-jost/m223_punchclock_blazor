@@ -25,13 +25,13 @@ namespace M223PunchclockBlazor.Pages
         public async Task DeleteUserAsync(User user)
         {
             await UserService.DeleteUserAsync(user.id);
-            _users.Remove(user);
+            _users = await UserService.GetUsersAsync();
         }
 
         public async Task AddUserAsync(PostUser user)
         {
             await UserService.AddUserAsync(user);
-            _users.Add(new User() { username = user.username, password = user.password, role = new Role() { id = user.role.id } });
+            _users = await UserService.GetUsersAsync();
         }
     }
 }
