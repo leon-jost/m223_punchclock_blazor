@@ -14,6 +14,7 @@ using Blazored.LocalStorage;
 using M223PunchclockBlazor.Services.UserService;
 using M223PunchclockBlazor.Services.ProjectService;
 using M223PunchclockBlazor.Services.CategoryService;
+using M223PunchclockBlazor.Services.RoleService;
 
 namespace M223PunchclockBlazor
 {
@@ -33,6 +34,7 @@ namespace M223PunchclockBlazor
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IProjectService, ProjectService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
             await builder.Build().RunAsync();
         }

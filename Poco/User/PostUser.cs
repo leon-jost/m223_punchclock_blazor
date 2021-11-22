@@ -14,6 +14,6 @@ namespace M223PunchclockBlazor.Poco.User
 
     public class PostRole
     {
-        public int id { get; set; }
+        public int? id { get; set; }
     }
 }

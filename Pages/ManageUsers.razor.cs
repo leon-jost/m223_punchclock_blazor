@@ -1,4 +1,5 @@
 ﻿using M223PunchclockBlazor.Poco.User;
+using M223PunchclockBlazor.Services.RoleService;
 using M223PunchclockBlazor.Services.UserService;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -12,14 +13,18 @@ namespace M223PunchclockBlazor.Pages
     {
         [Inject]
         private IUserService UserService { get; set; }
+        [Inject]
+        private IRoleService RoleService { get; set; }
 
         private List<User> _users;
+        private List<Poco.Role.Role> _roles;
 
         private PostUser _newUser = new() { role = new() };
 
         protected async override Task OnInitializedAsync()
         {
             _users = await UserService.GetUsersAsync();
+            _roles = await RoleService.GetRolesAsync();
         }
 
         public async Task DeleteUserAsync(User user)

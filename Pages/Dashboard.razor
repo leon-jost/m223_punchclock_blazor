@@ -34,7 +34,7 @@ else
         <MudPaper Class="pa-16 ma-2 mt-16" Elevation="3">
             <MudTextField @bind-Value="entry.checkIn" Label="Check in" Variant="Variant.Text"></MudTextField>
             <MudTextField @bind-Value="entry.checkOut" Label="Check out" Variant="Variant.Text"></MudTextField>
-            <MudSelect Label="Category" @bind-Value="entry.category.id" HelperText="Every entry must have a category!">
+            <MudSelect Label="Category" @bind-Value="entry.category.id">
                 @foreach (var category in _categories)
                         {
                     <MudSelectItem Value="category.id">@category.title</MudSelectItem>
