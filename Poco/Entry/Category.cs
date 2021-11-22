@@ -7,7 +7,7 @@ namespace M223PunchclockBlazor.Poco.Entry
 {
     public class Category
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string title { get; set; }
     }
 }

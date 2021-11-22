@@ -10,8 +10,8 @@ namespace M223PunchclockBlazor.Services.ProjectService
     {
         public Task<bool> AddProjectAsync(PostProject user);
         public Task<List<Project>> GetProjectsAsync();
-        public Task<Project> GetProjectAsync(int id);
+        public Task<Project> GetProjectAsync(int? id);
         public Task<bool> UpdateProjectAsync(Project user);
-        public Task<bool> DeleteProjectAsync(int id);
+        public Task<bool> DeleteProjectAsync(int? id);
     }
 }

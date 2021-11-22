@@ -1,6 +1,6 @@
 ﻿@page "/dashboard"
 
-@if (_newEntry is null)
+@if (_newEntry is null || _projects is null)
 {
     <MudText Typo="Typo.body1">Loading...</MudText>
 }
@@ -8,8 +8,18 @@ else
 {
     <MudTextField @bind-Value="_newEntry.checkIn" Label="Check in" Variant="Variant.Text"></MudTextField>
     <MudTextField @bind-Value="_newEntry.checkOut" Label="Check out" Variant="Variant.Text"></MudTextField>
-    <MudTextField @bind-Value="_newEntry.category.id" Label="Category" Variant="Variant.Text"></MudTextField>
-    <MudTextField @bind-Value="_newEntry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
+    <MudSelect Label="Category" @bind-Value="_newEntry.category.id" HelperText="Every entry must have a category!">
+        @foreach (var category in _categories)
+            {
+            <MudSelectItem Value="category.id">@category.title</MudSelectItem>
+            }
+    </MudSelect>
+    <MudSelect Label="Project" @bind-Value="_newEntry.project.id">
+        @foreach (var project in _projects)
+            {
+            <MudSelectItem Value="project.id">@project.title</MudSelectItem>
+            }
+    </MudSelect>
     <MudButton Variant="Variant.Filled" OnClick="() => AddEntryAsync(_newEntry)">Create</MudButton>
 }
 
@@ -24,18 +34,30 @@ else
         <MudPaper Class="pa-16 ma-2 mt-16" Elevation="3">
             <MudTextField @bind-Value="entry.checkIn" Label="Check in" Variant="Variant.Text"></MudTextField>
             <MudTextField @bind-Value="entry.checkOut" Label="Check out" Variant="Variant.Text"></MudTextField>
-            <MudTextField @bind-Value="entry.category.id" Label="Category" Variant="Variant.Text"></MudTextField>
-            <MudText Typo="Typo.body1">@entry.category.title</MudText>
+            <MudSelect Label="Category" @bind-Value="entry.category.id" HelperText="Every entry must have a category!">
+                @foreach (var category in _categories)
+                        {
+                    <MudSelectItem Value="category.id">@category.title</MudSelectItem>
+                        }
+            </MudSelect>
             @if (entry.project is not null)
             {
-                <MudTextField @bind-Value="entry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
-                <MudText Typo="Typo.body1">@entry.project.title</MudText>
+                <MudSelect Label="Project" @bind-Value="entry.project.id">
+                    @foreach (var project in _projects)
+                                {
+                        <MudSelectItem Value="project.id">@project.title</MudSelectItem>
+                                }
+                </MudSelect>
             }
             else
             {
                 entry.project = new Project();
-                <MudTextField @bind-Value="entry.project.id" Label="Project" Variant="Variant.Text"></MudTextField>
-                <MudText Typo="Typo.body1">@entry.project.title</MudText>
+                <MudSelect Label="Project" @bind-Value="entry.project.id">
+                    @foreach (var project in _projects)
+                                {
+                        <MudSelectItem Value="project.id">@project.title</MudSelectItem>
+                                }
+                </MudSelect>
             }
             <MudButton Variant="Variant.Filled" OnClick="() => DeleteEntryAsync(entry)">Delete</MudButton>
             <MudButton Variant="Variant.Filled" OnClick="() => UpdateEntryAsync(entry)">Save</MudButton>

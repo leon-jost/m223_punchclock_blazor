@@ -78,7 +78,7 @@ namespace M223PunchclockBlazor.Services.UserService
         }
 
         // GET 1
-        public async Task<Project> GetProjectAsync(int id)
+        public async Task<Project> GetProjectAsync(int? id)
         {
             var requestMessage = new HttpRequestMessage()
             {
@@ -125,7 +125,7 @@ namespace M223PunchclockBlazor.Services.UserService
         }
 
         // DELETE
-        public async Task<bool> DeleteProjectAsync(int id)
+        public async Task<bool> DeleteProjectAsync(int? id)
         {
             var requestMessage = new HttpRequestMessage()
             {

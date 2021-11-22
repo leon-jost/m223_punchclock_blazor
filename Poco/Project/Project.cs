@@ -7,7 +7,7 @@ namespace M223PunchclockBlazor.Poco.Project
 {
     public class Project
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string title { get; set; }
     }
 }

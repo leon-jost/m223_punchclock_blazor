@@ -13,6 +13,7 @@ using M223PunchclockBlazor.Services.AuthService;
 using Blazored.LocalStorage;
 using M223PunchclockBlazor.Services.UserService;
 using M223PunchclockBlazor.Services.ProjectService;
+using M223PunchclockBlazor.Services.CategoryService;
 
 namespace M223PunchclockBlazor
 {
@@ -31,6 +32,7 @@ namespace M223PunchclockBlazor
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IProjectService, ProjectService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             await builder.Build().RunAsync();
         }
