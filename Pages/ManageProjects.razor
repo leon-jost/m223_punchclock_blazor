@@ -1,0 +1,27 @@
+﻿@page "/manageProjects"
+
+@if (_newProject is null)
+{
+    <MudText Typo="Typo.body1">Loading...</MudText>
+}
+else
+{
+    <MudTextField @bind-Value="_newProject.title" Label="Title" Variant="Variant.Text"></MudTextField>
+    <MudButton Variant="Variant.Filled" OnClick="() => AddProjectAsync(_newProject)">Create</MudButton>
+}
+
+@if (_projects is null)
+{
+    <MudText Typo="Typo.body1">Loading...</MudText>
+}
+else
+{
+    foreach (var project in _projects)
+    {
+        <MudPaper Class="pa-16 ma-2 mt-16" Elevation="3">
+            <MudTextField @bind-Value="project.title" Label="Title" Variant="Variant.Text"></MudTextField>
+            <MudButton Variant="Variant.Filled" OnClick="() => DeleteProjectAsync(project)">Delete</MudButton>
+            <MudButton Variant="Variant.Filled" OnClick="() => ProjectService.UpdateProjectAsync(project)">Save</MudButton>
+        </MudPaper>
+    }
+}
